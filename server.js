@@ -24,9 +24,37 @@ const db = mysql.createConnection(
     console.log('connected to election database')
 );
 
-// test connection with query 
-db.query(`SELECT * FROM candidates`, (err, rows) => {
-    console.log(rows);
+// test connection with query; comment out after testing
+// db.query(`SELECT * FROM candidates`, (err, rows) => {
+//     console.log(rows);
+// });
+
+//GET a single candidate;
+db.query(`SELECT * FROM candidates WHERE id=1`, (err, row) => {
+    if (err) {
+        console.log(err);
+    }
+    console.log(row);
+});
+
+//Delete a candidate; then comment out after demo
+// db.query(`DELETE FROM candidates WHERE id=?`, 1, (err, result) => {
+//     if (err) {
+//         console.log(err);
+//     }
+//     console.log(result);
+// });
+
+//Create a candidate
+const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
+VALUES (?,?,?,?)`;
+const params = [1, 'Ronald', 'Firbank', 1];
+
+db.query(sql, params, (err, result) => {
+    if (err) {
+        console.log(err);
+    }
+    console.log(result);
 });
 
 //default response for any other request (not found); must place the default error route BELOW all other routes or it will override them
